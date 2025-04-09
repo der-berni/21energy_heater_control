@@ -1,0 +1,53 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+        },
+        "error": {
+            "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
+            "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
+            "unknown": "[%key:common::config_flow::error::unknown%]"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "host": "Host",
+                    "polling_interval": "Interval"
+                },
+                "data_description": {
+                    "host": "The hostname or IP-address of your Heater device.",
+                    "polling_interval": "Polling Interval in seconds"
+                }
+            }
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "status_running": {"name": "Heater"}
+        },
+        "number": {
+            "powerTarget": {"name": "Power target"},
+            "fanspeed": {"name": "Fan speed"}
+        },
+        "select": {
+            "fan_mode": {"name": "Fan mode"}
+        },
+        "sensor": {
+            "status_temperature": {"name": "Temperature"},
+            "powerTarget_watt": {"name": "Power target"},
+            "power_limit": {"name": "Power limit"},
+            "power_consumption": {"name": "Power consumption"},
+            "hashrate_5s": {"name": "Hashrate 5 Seconds"},
+            "hashrate_1m": {"name": "Hashrate 1 Minute"},
+            "hashrate_5m": {"name": "Hashrate 5 Minutes"},
+            "hashrate_15m": {"name": "Hashrate 15 Minutes"},
+            "hashrate_24h": {"name": "Hashrate 24 Hour"},
+            "hashrate_av": {"name": "Hashrate Average"},
+            "poolStatus": {"name": "Pool status"}
+
+        },
+        "switch": {
+            "enable": {"name": "Heater"}
+        }
+    }
+}
