@@ -90,7 +90,7 @@ class HeaterControlNumber(HeaterControlEntity, NumberEntity):
         try:
             LOGGER.debug(f"async_set_native_value => {self.entity_description.key}:{value}")
 
-            if self.entity_description.key == 'powerTarget':
+            if self.entity_description.key == 'powertarget':
                 value = int(round(value))
                 await self.coordinator.entry.runtime_data.client.async_set_powerTarget(value)
             elif self.entity_description.key == 'fanspeed':

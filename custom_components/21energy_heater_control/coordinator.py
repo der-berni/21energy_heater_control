@@ -14,7 +14,7 @@ from .api import (
     HeaterControlApiClientAuthenticationError,
     HeaterControlApiClientError,
 )
-from .const import DOMAIN, TITLE, MANUFACTURER
+from .const import DOMAIN, MANUFACTURER
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
@@ -43,8 +43,8 @@ class HeaterControlDataUpdateCoordinator(DataUpdateCoordinator):
     @property
     def device_info(self):
         return DeviceInfo(
-            identifiers={(DOMAIN, self.entry.data[CONF_HOST])},
-            name=TITLE,
+            identifiers={(DOMAIN, self.entry.data["device"])},
+            name=f"{MANUFACTURER} {self.entry.data["model"]}",
             manufacturer=MANUFACTURER,
             model=self.entry.data["model"],
             sw_version=self.entry.data["app_version"],

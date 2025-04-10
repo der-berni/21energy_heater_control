@@ -11,7 +11,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.const import CONF_HOST
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .const import (DOMAIN, TITLE, CONF_POLLING_INTERVAL, LOGGER)
+from .const import (DOMAIN, CONF_POLLING_INTERVAL, LOGGER)
 from .api import HeaterControlApiClient
 
 STEP_USER_DATA_SCHEMA = vol.Schema({
