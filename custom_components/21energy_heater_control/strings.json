@@ -43,7 +43,8 @@
             "hashrate_15m": {"name": "Hashrate 15 Minutes"},
             "hashrate_24h": {"name": "Hashrate 24 Hour"},
             "hashrate_av": {"name": "Hashrate Average"},
-            "poolstatus": {"name": "Pool status"}
+            "poolstatus": {"name": "Pool status"},
+            "foundblocks": {"name": "Found Blocks"}
 
         },
         "switch": {

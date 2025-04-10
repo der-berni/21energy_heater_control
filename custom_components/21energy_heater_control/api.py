@@ -56,15 +56,15 @@ class HeaterControlApiClient:
         data = {}
         data["status"] = await self.async_get_status()
         data["fanspeed"] = int(float(await self._async_get_value("heater/status/fan")))
-        data["powerTarget"] = await self._async_get_value("heater/powerTarget")
-        data["powerTarget_watt"] = str(await self._async_get_value("heater/powerTarget/watt")).replace("W","")
+        data["powertarget"] = await self._async_get_value("heater/powerTarget")
+        data["powertarget_watt"] = str(await self._async_get_value("heater/powerTarget/watt")).replace("W","")
         data["fan_mode"] = await self._async_get_value("heater/fan/mode")
         data["status_temperature"] = await self._async_get_value("heater/status/temperature")
         
         status_summary = await self._async_get_value("heater/status/summary")
         for key in status_summary:
             if key in ["foundBlocks", "poolStatus"]:
-                data[key] = status_summary[key]
+                data[key.lower()] = status_summary[key]
             elif key == "power":
                 data["power_limit"] = status_summary[key]["limitW"]
                 data["power_consumption"] = status_summary[key]["approxConsumptionW"]

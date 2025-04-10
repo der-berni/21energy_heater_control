@@ -50,7 +50,7 @@ ENTITY_DESCRIPTIONS = (
     ),
     SensorEntityDescription(
         key="power_consumption",
-        icon="mdi:lightning-bolt-outline",
+        icon="mdi:flash",
         entity_registry_enabled_default=True,
         device_class=SensorDeviceClass.POWER,
         state_class=SensorStateClass.MEASUREMENT,
@@ -113,6 +113,14 @@ ENTITY_DESCRIPTIONS = (
     ),
     SensorEntityDescription(
         key="poolstatus",
+        icon="mdi:connection",
+        entity_registry_enabled_default=True,
+        device_class=None,
+        state_class=None,
+        native_unit_of_measurement=None,
+    ),
+    SensorEntityDescription(
+        key="foundblocks",
         icon="mdi:numeric",
         entity_registry_enabled_default=True,
         device_class=None,
