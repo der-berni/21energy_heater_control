@@ -31,7 +31,7 @@ ENTITY_DESCRIPTIONS = (
         suggested_display_precision=1,
     ),
     SensorEntityDescription(
-        key="powerTarget_watt",
+        key="powertarget_watt",
         icon="mdi:lightning-bolt-outline",
         entity_registry_enabled_default=True,
         device_class=SensorDeviceClass.POWER,
@@ -112,7 +112,7 @@ ENTITY_DESCRIPTIONS = (
         suggested_display_precision=2,
     ),
     SensorEntityDescription(
-        key="poolStatus",
+        key="poolstatus",
         icon="mdi:numeric",
         entity_registry_enabled_default=True,
         device_class=None,

@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 ENTITY_DESCRIPTIONS = (
     NumberEntityDescription(
-        key="powerTarget",
+        key="powertarget",
         icon="mdi:lightning-bolt",
         entity_registry_enabled_default=True,
         device_class=None,

@@ -26,7 +26,7 @@
             "status_running": {"name": "Heater"}
         },
         "number": {
-            "powerTarget": {"name": "Power target"},
+            "powertarget": {"name": "Power target"},
             "fanspeed": {"name": "Fan speed"}
         },
         "select": {
@@ -34,7 +34,7 @@
         },
         "sensor": {
             "status_temperature": {"name": "Temperature"},
-            "powerTarget_watt": {"name": "Power target"},
+            "powertarget_watt": {"name": "Power target"},
             "power_limit": {"name": "Power limit"},
             "power_consumption": {"name": "Power consumption"},
             "hashrate_5s": {"name": "Hashrate 5 Seconds"},
@@ -43,7 +43,7 @@
             "hashrate_15m": {"name": "Hashrate 15 Minutes"},
             "hashrate_24h": {"name": "Hashrate 24 Hour"},
             "hashrate_av": {"name": "Hashrate Average"},
-            "poolStatus": {"name": "Pool status"}
+            "poolstatus": {"name": "Pool status"}
 
         },
         "switch": {
