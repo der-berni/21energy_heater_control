@@ -90,7 +90,7 @@ class HeaterControlApiClient:
         
         await self._api_wrapper(
             method="post",
-            url=f"http://{self._host}:3000/heater/powerTarget/{value}",
+            url=f"http://{self._host}/21control/heater/powerTarget/{value}",
             headers={"Content-type": "application/json; charset=UTF-8"},
         )
 
@@ -102,7 +102,7 @@ class HeaterControlApiClient:
         
         await self._api_wrapper(
             method="post",
-            url=f"http://{self._host}:3000/heater/fan/{value}",
+            url=f"http://{self._host}/21control/heater/fan/{value}",
             headers={"Content-type": "application/json; charset=UTF-8"},
         )
 
@@ -114,7 +114,7 @@ class HeaterControlApiClient:
         
         await self._api_wrapper(
             method="post",
-            url=f"http://{self._host}:3000/heater/fan/mode/{value.lower()}",
+            url=f"http://{self._host}/21control/heater/fan/mode/{value.lower()}",
             headers={"Content-type": "application/json; charset=UTF-8"},
         )
 
@@ -123,7 +123,7 @@ class HeaterControlApiClient:
         try:
             await self._api_wrapper(
                 method="post",
-                url=f"http://{self._host}:3000/heater/enable",
+                url=f"http://{self._host}/21control/heater/enable",
                 data={"enabled":value},
                 headers={"Content-type": "application/json; charset=UTF-8"},
             )
@@ -134,7 +134,7 @@ class HeaterControlApiClient:
         """Get data from the API."""
         ret = await self._api_wrapper(
             method="get",
-            url=f"http://{self._host}:3000/status",
+            url=f"http://{self._host}/21control/status",
         )
         LOGGER.debug(f"typof ret:{type(ret)}")
         if "operational" in ret:
@@ -145,7 +145,7 @@ class HeaterControlApiClient:
         """Get heater data from the API."""
         ret = await self._api_wrapper(
             method="get",
-            url=f"http://{self._host}:3000/metrics",
+            url=f"http://{self._host}/21control/metrics",
         )
         pattern = r"process_cpu_user_seconds_total{device=\"(.*)\",app_version=\"(.*)\"}"
         matches = re.findall(pattern, ret)
@@ -156,11 +156,11 @@ class HeaterControlApiClient:
 
         data["model"] = await self._api_wrapper(
             method="get",
-            url=f"http://{self._host}:3000/key-value/get/heater_model",
+            url=f"http://{self._host}/21control/key-value/get/heater_model",
         )
         data["pool_username"] = await self._api_wrapper(
             method="get",
-            url=f"http://{self._host}:3000/key-value/get/heater_pool_username",
+            url=f"http://{self._host}/21control/key-value/get/heater_pool_username",
         )
         self._data = data
         return data
@@ -169,7 +169,7 @@ class HeaterControlApiClient:
         """Get data from the API."""
         return await self._api_wrapper(
             method="get",
-            url=f"http://{self._host}:3000/{arg}",
+            url=f"http://{self._host}/21control/{arg}",
         )
 
     async def _api_wrapper(
