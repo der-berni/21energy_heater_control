@@ -3,7 +3,7 @@
 
 # 21energy Heater Control integration for Home Assistant
 
-![logo](https://github.com/der-berni/21energy_heater_control/raw/main/icon.png)
+![logo](https://github.com/der-berni/21energy_heater_control/raw/main/logo.png)
 
 This Home Assistant integration is providing information and functions to control the Device from 21energy GmbH.
 
@@ -17,7 +17,7 @@ Please note that I am developing this integration to the best of my knowledge an
 
 | Platform        | Description                                          |
 |-----------------|------------------------------------------------------|
-| `binary_sensor` | Show something `True` or `False`.                    |
+| `binary_sensor` | Show connected and Heater running.                   |
 | `sensor`        | Show info from Heater.                               |
 | `switch`        | Switch the Heater on / off.                          |
 | `select`        | Select fan mode.                                     |
