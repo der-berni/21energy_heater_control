@@ -23,7 +23,8 @@
     },
     "entity": {
         "binary_sensor": {
-            "status_running": {"name": "Heater"}
+            "status_running": {"name": "Heater"},
+            "connected": {"name": "Connected"}
         },
         "number": {
             "powertarget": {"name": "Power target"},

@@ -25,6 +25,12 @@ ENTITY_DESCRIPTIONS = (
         entity_registry_enabled_default=True,
         device_class=BinarySensorDeviceClass.RUNNING,
     ),
+    BinarySensorEntityDescription(
+        key="connected",
+        icon="mdi:electric-switch",
+        entity_registry_enabled_default=True,
+        device_class=BinarySensorDeviceClass.CONNECTIVITY,
+    ),
 )
 
 
@@ -61,11 +67,11 @@ class HeaterControlBinarySensor(HeaterControlEntity, BinarySensorEntity):
     @property
     def is_on(self) -> bool | None:
         """Return the native value of the binarysensor."""
+        if self.entity_description.key == "connected":
+            return self.coordinator.data.get("status")
         return self.coordinator.data.get(self.entity_description.key)
 
     @property
     def available(self) -> bool:
         """Return the availability."""
-        if self.coordinator.device_is_running:
-            return self.coordinator.last_update_success
-        return False
+        return self.coordinator.last_update_success
