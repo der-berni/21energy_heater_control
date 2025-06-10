@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 from homeassistant.const import CONF_HOST, Platform
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
+from homeassistant.config_entries import ConfigEntryState
 
 from .api import HeaterControlApiClient
 from .const import DOMAIN, CONF_POLLING_INTERVAL, LOGGER
@@ -51,11 +52,11 @@ async def async_setup_entry(
     )
 
     # https://developers.home-assistant.io/docs/integration_fetching_data#coordinated-single-api-poll-for-data-for-all-entities
-    await coordinator.async_config_entry_first_refresh()
+    # await coordinator.async_config_entry_first_refresh()
+    await coordinator.async_refresh()
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-    entry.async_on_unload(entry.add_update_listener(async_reload_entry))
-
+    
     return True
 
 
@@ -64,13 +65,6 @@ async def async_unload_entry(
     entry: HeaterControlConfigEntry,
 ) -> bool:
     """Handle removal of an entry."""
-    return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
-
-async def async_reload_entry(
-    hass: HomeAssistant,
-    entry: HeaterControlConfigEntry,
-) -> None:
-    """Reload config entry."""
-    await async_unload_entry(hass, entry)
-    await async_setup_entry(hass, entry)
+    return unload_ok

@@ -47,7 +47,7 @@ class HeaterControlDataUpdateCoordinator(DataUpdateCoordinator):
             name=f"{MANUFACTURER} {self.entry.data["model"]}",
             manufacturer=MANUFACTURER,
             model=self.entry.data["model"],
-            sw_version=self.entry.data["app_version"],
+            sw_version=self.data["version"],
             serial_number=self.entry.data["device"],
         )
 

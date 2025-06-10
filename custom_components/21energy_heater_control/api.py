@@ -55,6 +55,7 @@ class HeaterControlApiClient:
         """Get all data from the API."""
         data = {}
         data["status"] = await self.async_get_status()
+        data["version"] = await self._async_get_value("status/version")
         data["fanspeed"] = int(float(await self._async_get_value("heater/status/fan")))
         data["powertarget"] = await self._async_get_value("heater/powerTarget")
         data["powertarget_watt"] = str(await self._async_get_value("heater/powerTarget/watt")).replace("W","")
@@ -136,7 +137,6 @@ class HeaterControlApiClient:
             method="get",
             url=f"http://{self._host}/21control/status",
         )
-        LOGGER.debug(f"typof ret:{type(ret)}")
         if "operational" in ret:
             return ret["operational"]
         return False

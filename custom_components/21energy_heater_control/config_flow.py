@@ -14,11 +14,6 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from .const import (DOMAIN, CONF_POLLING_INTERVAL, LOGGER)
 from .api import HeaterControlApiClient
 
-STEP_USER_DATA_SCHEMA = vol.Schema({
-    vol.Required(CONF_HOST): str,
-    vol.Required(CONF_POLLING_INTERVAL, default=60): int,
-    })
-
 class CannotConnect(exceptions.HomeAssistantError):
     """Error to indicate we cannot connect."""
 
@@ -51,12 +46,18 @@ class HeaterControlConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     def __init__(self) -> None:
         """Initialize flow."""
         self._host: str | None = None
-        self._interval: int | None = None
+        self._interval: int | None = 60
+        _reconfigure_entry: config_entries.ConfigEntry | None = None
 
-    async def _async_step_user_base(self, user_input: dict[str, Any] | None = None, error: str | None = None) -> ConfigFlowResult:
+    async def _async_step_user_base(self, step_id, user_input: dict[str, Any] | None = None, error: str | None = None) -> ConfigFlowResult:
         """Handle the initial step."""
         errors = {}
         info = {}
+        if self.source == config_entries.SOURCE_RECONFIGURE:
+            self._reconfigure_entry = self._get_reconfigure_entry()
+            self._host = self._reconfigure_entry.data[CONF_HOST]
+            self._interval = self._reconfigure_entry.data[CONF_POLLING_INTERVAL]
+        
         if user_input is not None:
             self._host = user_input[CONF_HOST]
             self._interval = user_input[CONF_POLLING_INTERVAL]
@@ -67,6 +68,15 @@ class HeaterControlConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 info = await self._validate_and_setup()
                 if "device" in info:
                     await self.async_set_unique_id(info["device"])
+                    LOGGER.debug(f"_async_step_user_base => info:{info}")
+                    
+                    if self.source == config_entries.SOURCE_RECONFIGURE:
+                        self._abort_if_unique_id_mismatch()
+                        return self.async_update_reload_and_abort(
+                            self._reconfigure_entry,
+                            data_updates=user_input,
+                        )
+
                     self._abort_if_unique_id_configured(updates=user_input)
                     user_input["device"] = info["device"]
                     user_input["model"] = info["model"]
@@ -81,14 +91,20 @@ class HeaterControlConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             except Exception:
                 LOGGER.exception("Unexpected exception")
                 errors["base"] = "unknown"
-        # If there is no user input or there were errors, show the form again, including any errors that were found with the input.
-        return self.async_show_form(step_id="user", data_schema=STEP_USER_DATA_SCHEMA, errors=errors)
+        
+        STEP_USER_DATA_SCHEMA = vol.Schema({
+            vol.Required(CONF_HOST, default=self._host): str,
+            vol.Required(CONF_POLLING_INTERVAL, default=self._interval): int,
+            })
+        return self.async_show_form(step_id=step_id, data_schema=STEP_USER_DATA_SCHEMA, errors=errors)
 
-    async def async_step_user(
-        self, user_input: dict[str, Any] | None = None
-    ) -> ConfigFlowResult:
+    async def async_step_user( self, user_input: dict[str, Any] | None = None ) -> ConfigFlowResult:
         """Handle a flow initialized by the user."""
-        return await self._async_step_user_base(user_input=user_input)
+        return await self._async_step_user_base(step_id="user", user_input=user_input)
+
+    async def async_step_reconfigure(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
+        """Handle a flow initialized by the user to reconfigure."""
+        return await self._async_step_user_base(step_id="reconfigure", user_input=user_input)
 
     async def _validate_and_setup(self) -> dict:
         """Validate the host allows us to connect.
